@@ -6,6 +6,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laz.hackathon.ninja.beans.Recipe;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -31,15 +34,15 @@ public class RecipeScraperTest {
     }
 
     @Test
-    public void testRecipeScraper() {
+    public void testRecipeScraper() throws JsonProcessingException {
         RecipeScraper handler = new RecipeScraper();
         Context ctx = createContext();
 
-        Object output = handler.handleRequest(input, ctx);
+        Recipe output = (Recipe) handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
         if (output != null) {
-            System.out.println(output.toString());
+            System.out.println(JsonMapper.mapJson(output));
         }
     }
 }
